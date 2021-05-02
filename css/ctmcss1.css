@@ -34328,21 +34328,11 @@ a.u-link.u-text-hover-grey-90:hover {
 @media (max-width: 1199px) {
   .u-header .u-text-1 {
     width: 301px;
-    margin-top: 20px;
-    margin-right: 637px;
+    margin-top: 20px;;
     margin-bottom: 31px;
   }
 }
-@media (max-width: 991px) {
-  .u-header .u-text-1 {
-    margin-right: 418px;
-  }
-}
-@media (max-width: 767px) {
-  .u-header .u-text-1 {
-    margin-right: 270px;
-  }
-}
+
 @media (max-width: 575px) {
   .u-header .u-sheet-1 {
     min-height: 80px;
@@ -34350,7 +34340,6 @@ a.u-link.u-text-hover-grey-90:hover {
 
   .u-header .u-text-1 {
     margin-top: 22px;
-    margin-right: 91px;
     margin-bottom: 24px;
   }
 }
