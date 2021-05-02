@@ -4,47 +4,15 @@
  * Copyright 2014-2020 Froala Labs
  */
  #sec-e4c3{
-  animation: animate 80s ease-in-out infinite;
   background-size: cover;
-  
+  background-image: url(../images/woods1.jpg);
 }
 
       #map1 {
         display: flex;
         flex-direction: column;
       }
-@keyframes animate{
-  0%, 100%{
-    background-image: url(../images/woods1.jpg);
-  }
-  10%{
-    background-image: url(../images/woods2.jpg);
-  }
-  20%{
-    background-image: url(../images/woods3.jpg);
-  }
-  30%{
-    background-image: url(../images/woods4.jpg);
-  }
-  40%{
-    background-image: url(../images/woods5.jpg);
-  }
-  50%{
-    background-image: url(../images/woods6.jpg);
-  }
-  60%{
-    background-image: url(../images/woods7.jpg);
-  }
-  70%{
-    background-image: url(../images/woods8.jpg);
-  }
-  80%{
-    background-image: url(../images/woods9.jpg);
-  } 
-  90%{
-    background-image: url(../images/woods10.jpg);
-  }
-}
+
 #menu{
   overflow: auto;
 }
