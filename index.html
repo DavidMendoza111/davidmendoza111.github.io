@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html style="font-size: 18px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Map, United States, Conspiracy Theory, New World Order, Black Helicopters, New Coke, Lizard People, Reptilians, Deepwater Horizon, Tupac, Flat Earth, Hoax, Moon Landing">
+    <title>Conspiracy Theory Map</title>
+    <link rel="stylesheet" href="css/ctmcss1.css" media="screen">
+    <link rel="stylesheet" href="css/ctmcss2.css" media="screen">
+    <link rel="stylesheet" href="css/mapreferencecss.css" media="screen">
+    <script class="u-script" type="text/javascript" src="javascript/jquery-1.9.1.min.js" defer=""></script>
+    <link href="css/donatecss.css" rel="stylesheet">
+    <script class="u-script" type="text/javascript" src="javascript/ctmjs.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="javascript/donatejs.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="javascript/mapreferencejs.js" defer=""></script>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    
+    
+    <script type="application/ld+json">{
+  		"@context": "http://schema.org",
+  		"@type": "Organization",
+  		"name": "",
+  		"url": "index.html"
+    }</script>
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#2534bd">
+
+    <style>
+      #map {
+        display: flex;
+        flex-direction: column;
+      }
+      .info { 
+        padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; 
+      }
+      .legend { 
+        text-align: left; line-height: 18px; color: #555; 
+      } 
+      .legend i { 
+        width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; 
+      }
+    </style>
+  </head>
+    <body class="u-body">
+      <header class="u-border-4 u-border-black u-clearfix u-custom-color-1 u-header u-header" id="sec-d5a8">
+        <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+          <h3 class="u-align-center u-custom-font u-font-georgia u-headline u-text u-text-1">
+            Map of Conspiracy Theories
+          </h3>
+        </div>
+      </header> 
+      <section class="u-align-center u-clearfix u-section-1" id="sec-e4c3">
+        <div class="u-clearfix u-sheet u-sheet-1">
+          <div class="u-clearfix u-gutter-0 u-layout-wrap u-layout-wrap-1">
+            <div class="u-gutter-0 u-layout">
+              <div class="u-layout-row">
+                <div class="u-size-30">
+                  <div class="u-layout-col">
+                    <div class="u-align-center u-container-style u-layout-cell u-size-60 u-white u-layout-cell-1">
+                      <div class="u-border-4 u-border-black u-container-layout u-valign-top u-container-layout-1" id="map" style="z-index: 0;">
+                        <div><script type="text/javascript" src="javascript/us-states.js"></script></div>
+                        <script type="text/javascript">
+                          var map = L.map('map').setView([50, -120], 3);
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          // control that shows state info on hover
+                          var info = L.control();
+                          info.onAdd = function (map) {
+                            this._div = L.DomUtil.create('div', 'info');
+                            this.update();
+                            return this._div;
+                          };
+                          info.update = function (props) {
+                            this._div.innerHTML = '<h4>Most Popular Conspiracy Theories <br>per State</h4>' +  (props ?
+                            '<b>' + props.name + '</b><br />' + props.conspiracy 
+                            : 'Hover over a state to see the most searched conspiracy');
+                          };
+                          info.addTo(map);
+                          // get color depending on population density value
+                          function getColor(d) {
+                            return d > 1000 ? '#800026' :
+                                    d > 500  ? '#BD0026' :
+                                    d > 200  ? '#E31A1C' :
+                                    d > 100  ? '#FC4E2A' :
+                                    d > 50   ? '#FD8D3C' :
+                                    d > 20   ? '#FEB24C' :
+                                    d > 10   ? '#FED976' :
+                                          '#5f5f1a';
+                          }
+                          function style(feature) {
+                            return {
+                              weight: 2,
+                              opacity: 1,
+                              color: 'white',
+                              dashArray: '3',
+                              fillOpacity: 0.7,
+                              fillColor: 'red',
+                            };
+                          }
+                          function highlightFeature(e) {
+                            var layer = e.target;
+                            layer.setStyle({
+                              weight: 5,
+                              color: 'black',
+                              dashArray: '',
+                              fillOpacity: 0.7
+                            });
+
+                            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                              layer.bringToFront();
+                            }
+
+                            info.update(layer.feature.properties);
+                          }
+                          var geojson;
+                          function resetHighlight(e) {
+                            geojson.resetStyle(e.target);
+                            info.update();
+                          }
+                          function onEachFeature(feature, layer) {
+                            layer.on({
+                              mouseover: highlightFeature,
+                              mouseout: resetHighlight,
+                            });
+                          }
+                          geojson = L.geoJson(statesData, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+                          var legend = L.control({position: 'bottomright'});
+                          var mapNWO = function(c){
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                           if(c=='NWO')
+                          geojson = L.geoJson(statesNWO, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                           if(c=='tn')
+                           map.setView(new L.LatLng(34,9), 6);
+                          return;
+                          };
+                        </script>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="u-size-30">
+                  <div class="u-layout-col">
+                    <div class="u-align-left u-container-style u-custom-color-2 u-layout-cell u-size-60 u-layout-cell-2">
+                      <div class="u-border-4 u-border-black u-container-layout u-valign-top u-container-layout-2" id="menu">
+                        <h2 class="u-align-center u-custom-font u-font-georgia u-text u-text-1">
+                        Info
+                        </h2>
+                        <section class="u-align-center u-clearfix u-section-2" id="sec-6d5e" style="height: 1px;">
+                        <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
+                          <div class="u-accordion u-collapsed-by-default u-spacing-3 u-accordion-1">
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-1 " id="link-accordion-0781" aria-controls="accordion-0781" aria-selected="false">
+                                <span onclick="mapNWO('NWO')" class="u-accordion-link-text">
+                                New world order
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-1">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-5f2f"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-5f2f" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 ">
+                                    </polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-1" id="accordion-0781" aria-labelledby="link-accordion-0781">
+                                <div class="u-container-layout u-valign-top u-container-layout-1">
+                                  <p class="u-text u-text-1">The New World Order (NWO) is a conspiracy theory which hypothesizes a secretly emerging totalitarian world government.
+                                    <br>
+                                      <br>The common theme in conspiracy theories about a New World Order is that a secretive power elite with a globalist agenda is conspiring to eventually rule the world through an authoritarian world government—which will replace sovereign nation-states—and an all-encompassing propaganda whose ideology hails the establishment of the New World Order as the culmination of history's progress. Many influential historical and contemporary figures have therefore been alleged to be part of a cabal that operates through many front organizations to orchestrate significant political and financial events, ranging from causing systemic crises to pushing through controversial policies, at both national and international levels, as steps in an ongoing plot to achieve world domination
+                                  </p>
+                                  <img src="images/newworldorder.png" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-circle u-image-1" data-image-width="1200" data-image-height="1200">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-2" id="link-accordion-4c47" aria-controls="accordion-4c47" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                Black Helicopters
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-2">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-ad9c"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-ad9c" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-2" id="accordion-4c47" aria-labelledby="link-accordion-4c47">
+                                <div class="u-container-layout u-container-layout-2">
+                                  <p class="u-text u-text-2">The black helicopter is a symbol of an alleged conspiratorial military takeover of the United States in the American militia movement, and has also been associated with UFOs, especially in the UK, men in black, and similar conspiracies.
+                                  <br>
+                                    <br>Stories of black helicopters first appeared in the 1970s, and were linked to reports of cattle mutilation. It is possible that the idea originated in Hal Lindsey's book The Late, Great Planet Earth, published in 1970 and popular among conspiracy theorists. Lindsey conjectured that the locust-like creatures referenced in the Book of Revelation in the New Testament were actually helicopters, which John had never seen and thus did not know how to describe.
+                                      <br>
+                                  </p>
+                                  <img src="images/blackhelicopter.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-2" data-image-width="1024" data-image-height="680">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-3" id="link-accordion-a910" aria-controls="accordion-a910" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                Flat Earth
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-3">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-aa87"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-aa87" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-3" id="accordion-a910" aria-labelledby="link-accordion-a910">
+                                <div class="u-container-layout u-valign-top u-container-layout-3">
+                                  <p class="u-text u-text-3">Modern flat Earth beliefs are promoted by organizations and individuals which make claims that the Earth is flat while denying the Earth's sphericity.<br>
+                                    <br>Flat Earth groups date from the middle of the 20th century; some adherents are serious and some are not. Those who are serious are often motivated by religion or conspiracy theories. Through the use of social media, flat Earth theories have been increasingly espoused and promoted by individuals unaffiliated with larger groups. Many believers make use of social media to spread their views.
+                                      <br>
+                                  </p>
+                                  <div alt="" class="u-align-center u-border-4 u-border-black u-image u-image-circle u-preserve-proportions u-image-3" data-image-width="800" data-image-height="800">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-4" id="link-accordion-0e9f" aria-controls="accordion-0e9f" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                Chemtrails
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-4">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-4b6a"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-4b6a" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-4" id="accordion-0e9f" aria-labelledby="link-accordion-0e9f">
+                                <div class="u-container-layout u-container-layout-4">
+                                  <p class="u-text u-text-4">The chemtrail conspiracy theory posits the belief that long-lasting condensation trails are "chemtrails" consisting of chemical or biological agents left in the sky by high-flying aircraft, sprayed for nefarious purposes undisclosed to the general public] Believers in this conspiracy theory say that while normal contrails dissipate relatively quickly, contrails that linger must contain additional substances. Those who subscribe to the theory speculate that the purpose of the chemical release may be solar radiation management, weather modification, psychological manipulation, human population control, biological or chemical warfare, or testing of biological or chemical agents on a population, and that the trails are causing respiratory illnesses and other health problems.<br>
+                                  </p>
+                                  <img src="images/chemtrails.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-4" data-image-width="1065" data-image-height="722">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-5" id="link-accordion-5f38" aria-controls="accordion-5f38" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                Lizard People
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-5">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-6eb6"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-6eb6" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-5" id="accordion-5f38" aria-labelledby="link-accordion-5f38">
+                                <div class="u-container-layout u-container-layout-5">
+                                  <p class="u-text u-text-5">Reptilians – also called reptoids, lizard people, reptiloids, saurians, or draconians – are supposed reptilian humanoids, which play a prominent role in fantasy, science fiction, ufology, and conspiracy theories. The idea of reptilians was popularized by David Icke, a conspiracy theorist who claims shapeshifting reptilian aliens control Earth by taking on human form and gaining political power to manipulate human societies. Icke has stated on multiple occasions that many world leaders are, or are possessed by, so-called reptilians.
+                                    <br>
+                                  </p>
+                                  <img src="images/lizardpeople.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-5" data-image-width="752" data-image-height="501">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-6" id="link-accordion-e24e" aria-controls="accordion-e24e" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                Tupac is alive
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-6">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-6d03"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-6d03" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-6" id="accordion-e24e" aria-labelledby="link-accordion-e24e">
+                                <div class="u-container-layout u-valign-top u-container-layout-6">
+                                  <p class="u-text u-text-6">A conspiracy theory that says Tupac Amaru Shakur didn't succumb to gunshot wounds sustained in a drive-by shooting on the Las Vegas Strip on September 13, 1996, but escaped to Cuba. There are monthly tabloid stories dedicated to the subject, with new sightings of the rapper and fresh reports on the method in which he faked his death.
+                                    <br>
+                                      <br>One of the latest theories suggests Tupac switched with a double and was flown out of Las Vegas by helicopter after learning someone was planning to assassinate him. Filmmaker Rick Boss, the director of the documentary 2Pac: The Great Escape from UMC, claims Tupac is hiding out in New Mexico.
+                                        <br>
+                                  </p>
+                                  <img src="images/Tupac.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-6" data-image-width="512" data-image-height="341">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-7" id="link-accordion-06d8" aria-controls="accordion-06d8" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                  Deep water horizon
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-7">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-267d"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-267d" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-7" id="accordion-06d8" aria-labelledby="link-accordion-06d8">
+                                <div class="u-container-layout u-valign-top u-container-layout-7">
+                                  <p class="u-text u-text-7">Deepwater Horizon was an ultra-deepwater, dynamically positioned, semi-submersible offshore drilling rig owned by Transocean.
+                                    <br>
+                                      <br>At 7:45 p.m. CDT on 20 April 2010, during the final phases of drilling the exploratory well at Macondo, a geyser of seawater erupted from the marine riser onto the rig, shooting 70 m into the air. This was soon followed by the eruption of a slushy combination of drilling mud, methane gas, and water. The gas component of the slushy material quickly transitioned into a fully gaseous state and then ignited into a series of explosions and then a firestorm. An attempt was made to activate the blowout preventer, but it failed. The final defense to prevent an oil spill, a device known as a blind shear ram, was activated but failed to plug the well.
+                                        <br>
+                                    <br>Eleven workers were presumed killed in the initial explosion. The rig was evacuated, with injured workers airlifted to medical facilities. After approximately 36 hours, Deepwater Horizon sank on 22 April 2010. The remains of the rig were located resting on the seafloor approximately 1,500 m deep at that location, and about 400 m northwest of the well.
+                                      <br>
+                                    <br>The resultant oil spill continued until 15 July when it was closed by a cap. Relief wells were used to permanently seal the well, which was declared "effectively dead" on 19 September 2010. NOAA established the Gulf Spill Restoration project, under the Deep Water Horizon National Resource Damage Assessment Trustees, have helped to restore much of the coastline.
+                                      <br>
+                                  </p>
+                                  <img src="images/deepwater.jpg" alt="" class="u-align-center u-border-5 u-border-black u-image u-image-default u-image-7" data-image-width="800" data-image-height="599">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-8" id="link-accordion-180e" aria-controls="accordion-180e" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                  New coke
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-8">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-1daf"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-1daf" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-8" id="accordion-180e" aria-labelledby="link-accordion-180e">
+                                <div class="u-container-layout u-valign-top u-container-layout-8">
+                                  <p class="u-text u-text-8">The Coca-Cola Company's apparently sudden reversal on New Coke led to conspiracy theories, including: <br>
+                                    <br>-The company intentionally changed the formula, hoping consumers would be upset with the company, and demand the original formula to return, which in turn would cause sales to spike. Keough answered this speculation by saying "We're not that dumb, and we're not that smart."
+                                      <br>
+                                    <br>-The putative switch was planned all along to cover the change from sugar-sweetened Coke to much less expensive HFCS, a theory that was supposedly given credence by the apparently different taste of Coke Classic when it first hit the market (the U.S. sugar trade association took out a full-page ad lambasting Coke for using HFCS in all bottling of the old formula when it was reintroduced).
+                                      <br>
+                                    <br>-It provided cover for the final removal of all coca derivatives from the product to placate the Drug Enforcement Administration, which was trying to eradicate the plant worldwide to combat an increase in cocaine trafficking and consumption. This theory was endorsed in a Time article, as well as by historian Bartow Elmore, who claims the reformulation was made in response to the escalating War on Drugs by the Reagan Administration.
+                                      <br>
+                                  </p>
+                                  <img src="images/newcoke.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-8" data-image-width="164" data-image-height="307">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="u-accordion-item">
+                              <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-9" id="link-accordion-6b20" aria-controls="accordion-6b20" aria-selected="false">
+                                <span class="u-accordion-link-text">
+                                  Moon landing was fake
+                                </span>
+                                <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-9">
+                                  <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 42 42" style="">
+                                    <use xlink:href="#svg-8fff"></use>
+                                  </svg>
+                                  <svg class="u-svg-content" viewBox="0 0 42 42" x="0px" y="0px" id="svg-8fff" style="enable-background:new 0 0 42 42;">
+                                    <polygon points="42,19 23,19 23,0 19,0 19,19 0,19 0,23 19,23 19,42 23,42 23,23 42,23 "></polygon>
+                                  </svg>
+                                </span>
+                              </a>
+                              <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-9" id="accordion-6b20" aria-labelledby="link-accordion-6b20">
+                                <div class="u-container-layout u-valign-middle u-container-layout-9">
+                                  <p class="u-text u-text-9">Moon landing conspiracy theories claim that some or all elements of the Apollo program and the associated Moon landings were hoaxes staged by NASA, possibly with the aid of other organizations. The most notable claim is that the six crewed landings (1969–1972) were faked and that twelve Apollo astronauts did not actually walk on the Moon. Various groups and individuals have made claims since the mid-1970s that NASA and others knowingly misled the public into believing the landings happened, by manufacturing, tampering with, or destroying evidence including photos, telemetry tapes, radio and TV transmissions, and Moon rock samples.
+                                    <br>
+                                  </p>
+                                  <img src="images/moonlanding.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-9" data-image-width="800" data-image-height="1049">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="u-backlink u-clearfix u-grey-80">
+      <a  class="u-btn u-button-style u-palette-1-base u-btn-1" data-modal-target="#modal">
+      Donate
+      </a>
+      <div class="modal" id="modal">
+        <div class="modal-header">
+          <div class="u-align-center u-custom-font u-font-georgia u-headline u-text u-text-1 title">
+            <h4 class="u-text u-text-6" style="color: black;">DONATIONS<br></h4>
+          </div>
+          <button data-close-button class="close-button" style="color: black;">&times;</button>
+        </div>
+        <div class="modal-body">
+          <h6 class="u-text u-text-6"  style="color: black;">Hey! If you want to support the author of this webpage, you can donate. I'd appreciate it very much.<br>
+            ETH: 0x32fA74C5EaD99E7FB14708C556dab3d7B7F0cB51<br>
+            <div>
+              <img src="images/ethwallet.png" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-6" data-image-width="160" data-image-height="160">
+            </div>
+            BTC: 3HMHtuYyFnhVK1SHJp6agcjrB5pnemcyd1<br>
+            <div>
+              <img src="images/BTCwallet.png" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-6" data-image-width="204" data-image-height="203">
+            </div>
+          </h6>
+        </div>
+      </div>
+      <div id="overlay"></div>
+      <div>
+        <a class="u-link" href="https://nicepage.com/website-templates" target="_blank">
+          <span>
+          Website Templates
+          </span>
+        </a>
+        <p class="u-text">
+          <span>
+          created with
+          </span>
+        </p>
+        <a class="u-link" href="https://nicepage.com/" target="_blank">
+          <span>
+          Website Builder Software
+        </span>
+        </a> 
+      </div>
+    </section>
+    <span style="height: 64px; width: 64px; margin-left: 0px; margin-right: auto; margin-top: 0px; background-image: none; right: 20px; bottom: 20px" class="u-back-to-top u-icon u-icon-circle u-opacity u-opacity-85 u-palette-1-base u-spacing-15" data-href="#">
+      <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 551.13 551.13">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-1d98"></use>
+      </svg>
+      <svg class="u-svg-content" enable-background="new 0 0 551.13 551.13" viewBox="0 0 551.13 551.13" xmlns="http://www.w3.org/2000/svg" id="svg-1d98">
+        <path d="m275.565 189.451 223.897 223.897h51.668l-275.565-275.565-275.565 275.565h51.668z"></path>
+      </svg>
+    </span>
+  </body>
+</html>
