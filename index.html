@@ -7,12 +7,10 @@
     <title>Conspiracy Theory Map</title>
     <link rel="stylesheet" href="css/ctmcss1.css" media="screen">
     <link rel="stylesheet" href="css/ctmcss2.css" media="screen">
-    <link rel="stylesheet" href="css/mapreferencecss.css" media="screen">
     <script class="u-script" type="text/javascript" src="javascript/jquery-1.9.1.min.js" defer=""></script>
     <link href="css/donatecss.css" rel="stylesheet">
     <script class="u-script" type="text/javascript" src="javascript/ctmjs.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="javascript/donatejs.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="javascript/mapreferencejs.js" defer=""></script>
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
@@ -31,6 +29,9 @@
       #map {
         display: flex;
         flex-direction: column;
+      }
+      #donate{
+        background-color: red;
       }
       .info { 
         padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; 
@@ -136,17 +137,177 @@
                           }).addTo(map);
                           map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
                           var legend = L.control({position: 'bottomright'});
+
                           var mapNWO = function(c){
+                            if(c=='changeNWO')
                             map.eachLayer(function (layer) { map.removeLayer(layer); });
-                           if(c=='NWO')
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
                           geojson = L.geoJson(statesNWO, {
                             style: style,
                             onEachFeature: onEachFeature
                           }).addTo(map);
-                           if(c=='tn')
-                           map.setView(new L.LatLng(34,9), 6);
-                          return;
-                          };
+                          return
+                          }
+
+                          var mapBH = function(c){
+                            if(c=='changeBH')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesBH, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapFE = function(c){
+                            if(c=='changeFE')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesFE, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapCT = function(c){
+                            if(c=='changeCT')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesCT, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapLP = function(c){
+                            if(c=='changeLP')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesLP, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapTIA = function(c){
+                            if(c=='changeTIA')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesTIA, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapDWH = function(c){
+                            if(c=='changeDWH')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesDWH, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapNC = function(c){
+                            if(c=='changeNC')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesNC, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+                          var mapMLWF = function(c){
+                            if(c=='changeMLWF')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesMLWF, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
+
+
+                          var reset = function(c){
+                            if(c=='resetbutton')
+                            map.eachLayer(function (layer) { map.removeLayer(layer); });
+                          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                            maxZoom: 18,
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            id: 'mapbox/light-v9',
+                            tileSize: 512,
+                            zoomOffset: -1
+                          }).addTo(map);
+                          geojson = L.geoJson(statesData, {
+                            style: style,
+                            onEachFeature: onEachFeature
+                          }).addTo(map);
+                          return
+                          }
                         </script>
                       </div>
                     </div>
@@ -157,6 +318,13 @@
                     <div class="u-align-left u-container-style u-custom-color-2 u-layout-cell u-size-60 u-layout-cell-2">
                       <div class="u-border-4 u-border-black u-container-layout u-valign-top u-container-layout-2" id="menu">
                         <h2 class="u-align-center u-custom-font u-font-georgia u-text u-text-1">
+                          <div>
+                          <span onclick="reset('resetbutton')" class="u-btn u-button-style u-palette-1-base u-btn-1">
+                                Reset Map
+                                </span>
+                                <br>
+                                <br>
+                              </div>
                         Info
                         </h2>
                         <section class="u-align-center u-clearfix u-section-2" id="sec-6d5e" style="height: 1px;">
@@ -164,7 +332,7 @@
                           <div class="u-accordion u-collapsed-by-default u-spacing-3 u-accordion-1">
                             <div class="u-accordion-item">
                               <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-1 " id="link-accordion-0781" aria-controls="accordion-0781" aria-selected="false">
-                                <span onclick="mapNWO('NWO')" class="u-accordion-link-text">
+                                <span class="u-accordion-link-text">
                                 New world order
                                 </span>
                                 <span class="u-accordion-link-icon u-icon u-icon-circle u-text-active-black u-text-hover-black u-icon-1">
@@ -184,6 +352,11 @@
                                       <br>The common theme in conspiracy theories about a New World Order is that a secretive power elite with a globalist agenda is conspiring to eventually rule the world through an authoritarian world government—which will replace sovereign nation-states—and an all-encompassing propaganda whose ideology hails the establishment of the New World Order as the culmination of history's progress. Many influential historical and contemporary figures have therefore been alleged to be part of a cabal that operates through many front organizations to orchestrate significant political and financial events, ranging from causing systemic crises to pushing through controversial policies, at both national and international levels, as steps in an ongoing plot to achieve world domination
                                   </p>
                                   <img src="images/newworldorder.png" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-circle u-image-1" data-image-width="1200" data-image-height="1200">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapNWO('changeNWO')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -209,6 +382,11 @@
                                       <br>
                                   </p>
                                   <img src="images/blackhelicopter.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-2" data-image-width="1024" data-image-height="680">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapBH('changeBH')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -234,6 +412,11 @@
                                   </p>
                                   <div alt="" class="u-align-center u-border-4 u-border-black u-image u-image-circle u-preserve-proportions u-image-3" data-image-width="800" data-image-height="800">
                                   </div>
+                                  <br>
+                                  <br>
+                                  <span onclick="mapFE('changeFE')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -253,9 +436,14 @@
                               </a>
                               <div class="u-accordion-pane u-container-style u-expanded-width u-accordion-pane-4" id="accordion-0e9f" aria-labelledby="link-accordion-0e9f">
                                 <div class="u-container-layout u-container-layout-4">
-                                  <p class="u-text u-text-4">The chemtrail conspiracy theory posits the belief that long-lasting condensation trails are "chemtrails" consisting of chemical or biological agents left in the sky by high-flying aircraft, sprayed for nefarious purposes undisclosed to the general public] Believers in this conspiracy theory say that while normal contrails dissipate relatively quickly, contrails that linger must contain additional substances. Those who subscribe to the theory speculate that the purpose of the chemical release may be solar radiation management, weather modification, psychological manipulation, human population control, biological or chemical warfare, or testing of biological or chemical agents on a population, and that the trails are causing respiratory illnesses and other health problems.<br>
+                                  <p class="u-text u-text-4">The chemtrail conspiracy theory posits the belief that long-lasting condensation trails are "chemtrails" consisting of chemical or biological agents left in the sky by high-flying aircraft, sprayed for nefarious purposes undisclosed to the general public.<br> Believers in this conspiracy theory say that while normal contrails dissipate relatively quickly, contrails that linger must contain additional substances. Those who subscribe to the theory speculate that the purpose of the chemical release may be solar radiation management, weather modification, psychological manipulation, human population control, biological or chemical warfare, or testing of biological or chemical agents on a population, and that the trails are causing respiratory illnesses and other health problems.<br>
                                   </p>
                                   <img src="images/chemtrails.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-4" data-image-width="1065" data-image-height="722">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapCT('changeCT')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -279,6 +467,11 @@
                                     <br>
                                   </p>
                                   <img src="images/lizardpeople.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-5" data-image-width="752" data-image-height="501">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapLP('changeLP')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -304,6 +497,11 @@
                                         <br>
                                   </p>
                                   <img src="images/Tupac.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-6" data-image-width="512" data-image-height="341">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapTIA('changeTIA')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -333,6 +531,11 @@
                                       <br>
                                   </p>
                                   <img src="images/deepwater.jpg" alt="" class="u-align-center u-border-5 u-border-black u-image u-image-default u-image-7" data-image-width="800" data-image-height="599">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapDWH('changeDWH')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -361,6 +564,11 @@
                                       <br>
                                   </p>
                                   <img src="images/newcoke.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-8" data-image-width="164" data-image-height="307">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapNC('changeNC')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -384,6 +592,11 @@
                                     <br>
                                   </p>
                                   <img src="images/moonlanding.jpg" alt="" class="u-align-center u-border-4 u-border-black u-image u-image-default u-image-9" data-image-width="800" data-image-height="1049">
+                                  <br>
+                                  <br>
+                                  <span onclick="mapMLWF('changeMLWF')" class=" u-btn u-palette-1-base u-btn-1 u-align-center" style="left: 90px;">
+                                Show States
+                                </span>
                                 </div>
                               </div>
                             </div>
@@ -400,7 +613,7 @@
       </div>
     </section>
     <section class="u-backlink u-clearfix u-grey-80">
-      <a  class="u-btn u-button-style u-palette-1-base u-btn-1" data-modal-target="#modal">
+      <a  class="u-btn u-button-style u-palette-1-base u-btn-1" data-modal-target="#modal" id="donate">
       Donate
       </a>
       <div class="modal" id="modal">
@@ -441,6 +654,29 @@
         </span>
         </a> 
       </div>
+      <div>
+        <p class="u-text">
+          <span>
+          Sources:
+          </span>
+        </p>
+        <a class="u-link" href="https://whnt.com/news/whats-the-most-searched-conspiracy-theory-in-your-state/" target="_blank">
+          <span>
+           whnt.com
+        </span>
+        </a> 
+        <p class="u-text">
+          <span>
+          and
+          </span>
+        </p>
+        <a class="u-link" href="en.wikipedia.org" target="_blank">
+          <span>
+           wikipedia.com
+        </span>
+        </a> 
+      </div>
+
     </section>
     <span style="height: 64px; width: 64px; margin-left: 0px; margin-right: auto; margin-top: 0px; background-image: none; right: 20px; bottom: 20px" class="u-back-to-top u-icon u-icon-circle u-opacity u-opacity-85 u-palette-1-base u-spacing-15" data-href="#">
       <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 551.13 551.13">
