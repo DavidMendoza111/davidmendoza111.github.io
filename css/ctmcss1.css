@@ -18622,7 +18622,7 @@ a.pswp__share--download:hover {
   border-color: transparent;
   cursor: pointer;
 }
-.u-accordion-link-icon {
+.u-icon {
   margin-left: auto;
   flex-shrink: 0;
   background: transparent;
@@ -34150,7 +34150,7 @@ a.u-link.u-text-hover-grey-90:hover {
         {
         font-weight: 400;
         line-height: 1.6;
-        font-size: 1.1111111111111112rem;
+        font-size: 1rem;
         margin-top: 20px;
         margin-bottom: 20px;
         }

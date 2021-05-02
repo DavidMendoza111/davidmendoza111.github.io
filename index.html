@@ -34,7 +34,7 @@
         background-color: red;
       }
       .info { 
-        padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h4 { margin: 0 0 5px; color: #777; 
+        padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px; } .info h6 { margin: 0 0 5px; color: #777; 
       }
       .legend { 
         text-align: left; line-height: 18px; color: #555; 
@@ -63,7 +63,7 @@
                       <div class="u-border-4 u-border-black u-container-layout u-valign-top u-container-layout-1" id="map" style="z-index: 0;">
                         <div><script type="text/javascript" src="javascript/us-states.js"></script></div>
                         <script type="text/javascript">
-                          var map = L.map('map').setView([50, -120], 3);
+                          var map = L.map('map').setView([50, -120], 2);
                           L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
                             maxZoom: 18,
                             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -79,7 +79,7 @@
                             return this._div;
                           };
                           info.update = function (props) {
-                            this._div.innerHTML = '<h4>Most Popular Conspiracy Theories <br>per State</h4>' +  (props ?
+                            this._div.innerHTML = '<h6>Most Popular Conspiracy Theories <br>per State</h6>' +  (props ?
                             '<b>' + props.name + '</b><br />' + props.conspiracy 
                             : 'Hover over a state to see the most searched conspiracy');
                           };
@@ -318,19 +318,19 @@
                     <div class="u-align-left u-container-style u-custom-color-2 u-layout-cell u-size-60 u-layout-cell-2">
                       <div class="u-border-4 u-border-black u-container-layout u-valign-top u-container-layout-2" id="menu">
                         <h2 class="u-align-center u-custom-font u-font-georgia u-text u-text-2">
-                          <div>
-                          <span onclick="reset('resetbutton')" class="u-btn u-button-style u-palette-1-base u-btn-1">
-                                Reset Map
-                                </span>
-                                <br>
-                                <br>
-                              </div>
-                        Info
+
                         </h2>
                         <section class="u-align-center u-clearfix u-section-1" id="sec-6d5e" style="height: 1px;">
                         <div class="u-clearfix u-sheet u-valign-top u-sheet-1">
                           <div class="u-accordion u-collapsed-by-default u-spacing-3 u-accordion-1">
                             <div class="u-accordion-item">
+                                <div style="padding-left: 120px;">
+                                <span onclick="reset('resetbutton')" class="u-btn u-button-style u-palette-1-base u-btn-1">
+                                Reset Map
+                                </span>
+                                <br>
+                                <br>
+                              </div>
                               <a class="u-accordion-link u-active-palette-5-light-2 u-button-style u-grey-5 u-hover-palette-5-light-1 u-text-active-black u-text-grey-60 u-text-hover-black u-accordion-link-1 " id="link-accordion-0781" aria-controls="accordion-0781" aria-selected="false">
                                 <span class="u-accordion-link-text">
                                 New world order
